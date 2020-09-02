@@ -73,25 +73,25 @@ Inicio funcion loop
 void loop()
 {
   float distancia = 0.01723 * readUltrasonicDistance(2, 2);   //Se define la variable flotante distancia que indica la lectura en [cm] del sensor (Se aplica el factor de conversion)
-  if((distancia <= 336) && (distancia >= 200)) {	      //Se define la condicion (intervalo de distancia) para prender el LED rojo. Todas las condiciones consideran el rango operacional del sensor
-    digitalWrite(4, HIGH);                               //Intervalo LED rojo [200:336] centimetros
-  } 
-  else {						     //Si se cumple la condicion, se prende el LED rojo. De lo contrario, se mantiene apagado
+  if((distancia <= 336) && (distancia >= 200)) {	           //Se define la condicion (intervalo de distancia) para prender el LED rojo. Todas las condiciones consideran el rango operacional del sensor
+    digitalWrite(4, HIGH);                                    //Intervalo LED rojo [200:336] centimetros
+  }                                                           //Si se cumple la condicion, se prende el LED rojo. De lo contrario, se mantiene apagado
+  else {						    
     digitalWrite(4, LOW);
   }
   if((distancia < 200) && (distancia >= 100)) {		     //Se define la condicion (intervalo de distancia) para prender el LED amarillo
     digitalWrite(7, HIGH);                              //Intervalo LED amarillo [100:200[ centimetros
-  } 
-  else {						     //Si se cumple la condicion, se prende el LED amarillo. De lo contrario, se mantiene apagado.
+  }                                                     //Si se cumple la condicion, se prende el LED amarillo. De lo contrario, se mantiene apagado.
+  else {						     
     digitalWrite(7, LOW); 
   }
   if(distancia < 100) {					 //Se define la condicion (intervalo de distancia) para prender el LED verde.
     digitalWrite(8, HIGH);           //Intervalo LED verde, distancia menor que 100 centimetros (considerando rango operacional)
-  } 							 //Si se cumple la condicion, se prende el LED verde. De lo contrario, se mantiene apagado.
+  } 							             //Si se cumple la condicion, se prende el LED verde. De lo contrario, se mantiene apagado.
   else {
     digitalWrite(8, LOW); 
   }
-  delay(10); 					//Pequeño retraso para mejorar el rendimiento de la simulacion
+  delay(10); 					          //Pequeño retraso para mejorar el rendimiento de la simulacion
 
 }
 /*
