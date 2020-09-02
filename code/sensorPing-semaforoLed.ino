@@ -20,14 +20,20 @@
      * GND conectado a sensor PING))) en GND (ground)
      * SIG conectado a sensor PING))) en pin digital 7
      * LED conectado a pin 9 (PWM)
-
+   
    Funcion
    readUltrasonicDistance(int triggerPin, int echoPin): Referencia obtenida de sensor ultrasonico tinkercad.com
 */
 
+/*
+   Esta version del codigo cumple con los requerimientos del circuito electrico presentados en la experiencia
+   N°3 del laboratorio de robotica realizada el dia 21/08/2020, en donde se valida el rango operacional del 
+   circuito y se intercambia el accionamiento del LED rojo con el LED verde.
+*/
 
 /*
 Inicio declaracion funcion readUltrasonicDistance
+Se define la funcion de lectura del sensor ultrasonico ping entregada por el fabricante parallax
 */
 long readUltrasonicDistance(int triggerPin, int echoPin)
 {
@@ -46,13 +52,14 @@ long readUltrasonicDistance(int triggerPin, int echoPin)
 Fin declaracion funcion readUltrasonicDistance
 */
 
-
 /*
 Inicio funcion setup
 */
+
 void setup()
 {
-  pinMode(8, OUTPUT);
+  Serial.begin(9600);   //comunicación serial 9600 caracteres por segundo
+  pinMode(8, OUTPUT);   //Se definen las señales de salida (LED's)
   pinMode(5, OUTPUT);
   pinMode(2, OUTPUT);
 }
@@ -60,38 +67,39 @@ void setup()
 Fin funcion setup
 */
 
-
 /*
 Inicio funcion loop
 */
 void loop()
 {
-  int distancia = 0.01723 * readUltrasonicDistance(2, 2);
-
-  if((distancia <= 333) && (distancia >= 200)) {
-    digitalWrite(8, HIGH);
+  float distancia = 0.01723 * readUltrasonicDistance(2, 2);   //Se define la variable flotante distancia que indica la lectura en [cm] del sensor (Se aplica el factor de conversion)
+  if((distancia <= 336) && (distancia >= 200)) {	      //Se define la condicion (intervalo de distancia) para prender el LED rojo. Todas las condiciones consideran el rango operacional del sensor
+    digitalWrite(4, HIGH);
   } 
+  else {						     //Si se cumple la condicion, se prende el LED rojo. De lo contrario, se mantiene apagado
+    digitalWrite(4, LOW);
+  }
+  if((distancia < 200) && (distancia >= 100)) {		     //Se define la condicion (intervalo de distancia) para prender el LED amarillo
+    digitalWrite(7, HIGH);
+  } 
+  else {						     //Si se cumple la condicion, se prende el LED amarillo. De lo contrario, se mantiene apagado.
+    digitalWrite(7, LOW); 
+  }
+  if(distancia < 100) {					 //Se define la condicion (intervalo de distancia) para prender el LED verde.
+    digitalWrite(8, HIGH);
+  } 							 //Si se cumple la condicion, se prende el LED verde. De lo contrario, se mantiene apagado.
   else {
     digitalWrite(8, LOW); 
   }
-  if((distancia < 200) && (distancia >= 100)) {
-    digitalWrite(7, HIGH);
-  } 
-  else {
-    digitalWrite(7, LOW); 
-  }
-  if(distancia < 100) {
-    digitalWrite(4, HIGH);
-  } 
-  else {
-    digitalWrite(4, LOW); 
-  }
-   
+  delay(10); 					//Pequeño retraso para mejorar el rendimiento de la simulacion
 
-  delay(10); // Delay a little bit to improve simulation performance
 }
 /*
-Inicio funcion loop
+Las lineas de codigo definidas a continuacion se utilizaron para obtener referencias sobre las lecturas del sensor
+durante la calibracion del mismo. Las referencias se visualizan en el "Monitor en serie" del simulador.
+ *SE COMPARA MONITOR SERIE CON VALOR VISUAL DEL SENSOR SUS RANGO Y SE CALIBRA*
+  //Serial.print("distancia: "); //IMPRIMIR EN MONITOR SERIE EL STRING DISTANCIA
+  //Serial.println(distancia+1.8); // IMPRIME VALOR NUMERICO LA VARIABLE DISTANCIA 
 */
 
 /*
